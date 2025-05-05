@@ -101,7 +101,9 @@ class IIBB:
             self.xml.contribuyentes.contribuyente.cuitContribuyente = cuit_contribuyente
 
             xml = self.xml.as_xml()
-            self.CodigoHash = md5(xml.encode("utf-8") if isinstance(xml, str) else xml).hexdigest()
+            if not isinstance(xml, bytes):
+                xml = xml.encode("utf-8")
+            self.CodigoHash = md5(xml).hexdigest()
             nombre = "DFEServicioConsulta_%s.xml" % self.CodigoHash
 
             # guardo el xml en el archivo a enviar y luego lo re-abro:
